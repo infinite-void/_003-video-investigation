@@ -1,243 +1,184 @@
-# Video Investigation Scripts
+# _003 Video Investigation Suite
 
-A suite of scripts for comprehensive video analysis and investigation on Parrot OS.
+**Advanced video forensics tools for Parrot OS** 🔍
 
-## Overview
+![Video Investigation](https://img.shields.io/badge/Status-Production-ready-success)
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Ollama](https://img.shields.io/badge/Ollama-Powered-important)
 
-This repository contains three scripts that form a complete pipeline for video investigation:
+## 🎯 Overview
 
-1. **llmsh.py** - Main orchestrator using LLM for command generation
-2. **script1_extract.sh** - Metadata and URL extraction
+A **flexible, configurable** suite for comprehensive video analysis and investigation. Designed for forensic analysts, researchers, and security professionals.
+
+## 🔧 Features
+
+### **Core Capabilities**
+- ✅ **Multi-storage support**: Thumb drives, USB, network storage, local directories
+- ✅ **LLM automation**: Ollama-powered intelligent command generation
+- ✅ **Visual forensics**: Frame extraction and VL model analysis
+- ✅ **Metadata extraction**: Comprehensive video metadata scanning
+- ✅ **Flexible configuration**: Environment variables, config files, or defaults
+- ✅ **Memory management**: Efficient handling of large language models
+
+### **Storage Flexibility**
+Adapts to YOUR setup:
+- 📁 Thumb drives (`/mnt/llm/videos`)
+- 💾 USB drives (`/media/username/DRIVE/`)
+- 🌐 Network storage (`/mnt/nas/videos`)
+- 🏠 Local directories (`~/videos/`)
+
+### **Analysis Tools**
+1. **llmsh.py** - LLM-powered orchestrator
+2. **script1_extract.sh** - Metadata & URL extraction
 3. **script2_visual.sh** - Visual frame analysis
 
-## Features
-
-- **Date-based organization**: Automatically organizes videos into YYYYMM folders
-- **Metadata extraction**: Comprehensive analysis of video metadata and descriptions
-- **URL and pattern scanning**: Identifies URLs, iframes, hidden unicode, handles
-- **Visual analysis**: Extracts and analyzes key frames using VL models
-- **Memory management**: Efficient handling of large language models
-- **Reporting**: Generates detailed analysis reports
-
-## Requirements
-
-### Dependencies
-
-- Python 3.x
-- Ollama API (running locally)
-- FFmpeg
-- jq
-- curl
-- CyberChef CLI (optional for llmsh.py)
-
-### Recommended Models
-
-- `qwen3-coder:8b` - For command generation
-- `huihui_ai/qwen3-vl-abliterated:latest` - For visual analysis
-
-## Installation
+## 🚀 Quick Start
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/video-investigation-scripts.git
-cd video-investigation-scripts
+git clone https://github.com/infinite-void/_003-video-investigation.git
+cd _003-video-investigation
 
-# Make scripts executable
-chmod +x llmsh.py script1_extract.sh script2_visual.sh
+# Set up for your storage (or use defaults)
+export VIDEO_DIR="/mnt/llm/videos"  # Your thumb drive
 
 # Install dependencies
 sudo apt install python3 ffmpeg jq curl
 
-# Install Ollama and required models
+# Install Ollama and models
 curl -fsSL https://ollama.com/install.sh | sh
 ollama pull qwen3-coder:8b
 ollama pull huihui_ai/qwen3-vl-abliterated:latest
+
+# Run analysis
+./script1_extract.sh   # Extract metadata
+./script2_visual.sh   # Analyze frames
+python llmsh.py "analyze recent videos"  # LLM orchestration
 ```
 
-## Configuration File
+## 📁 Configuration
 
-A configuration file example is provided:
-
+### **Quick Setup (Environment Variables)**
 ```bash
-# Example configuration file
-cp config.ini.example config.ini
+# Thumb drive (your setup)
+export VIDEO_DIR="/mnt/llm/videos"
+export REPORT_DIR="~/investigation/reports"
+export FRAME_DIR="~/investigation/frames"
+```
 
-# Or install system-wide
+### **Persistent Setup (Config File)**
+```bash
+# Copy example config
 mkdir -p ~/.config/video-investigation/
 cp config.ini.example ~/.config/video-investigation/config.ini
+
+# Edit for your setup
+nano ~/.config/video-investigation/config.ini
 ```
 
-Edit the configuration file to match your setup:
+### **Multiple Configurations**
+```bash
+# Switch between setups easily
+export VIDEO_DIR="/media/usb/videos"  # USB drive
+./script1_extract.sh
 
-```ini
-[paths]
-video_dir = /mnt/llm/videos      # Your thumb drive
-report_dir = ~/investigation/reports
-frame_dir = ~/investigation/frames
-
-[ollama]
-api_endpoint = http://127.0.0.1:11434
-model = qwen3-coder:8b
-vl_model = huihui_ai/qwen3-vl-abliterated:latest
+export VIDEO_DIR="/mnt/nas/videos"    # Network storage
+./script1_extract.sh
 ```
 
-## Configuration Precedence
+See [CONFIGURATION_GUIDE.md](CONFIGURATION_GUIDE.md) for complete setup instructions.
 
-1. **Environment Variables** (highest priority)
-2. **Configuration File** values
-3. **Default Values** (lowest priority)
+## 🎯 Use Cases
 
-This means you can override any setting temporarily with environment variables.
+Perfect for:
+- **Video forensics** - Extract hidden data from videos
+- **Content analysis** - Scan descriptions, URLs, metadata
+- **Investigation** - Find clues in visual content
+- **Automation** - LLM-powered workflows
+- **Research** - Comprehensive video analysis
 
-## Backward Compatibility
-
-The scripts maintain full backward compatibility. If you don't set any configuration:
-- They use the same defaults as before
-- `/mnt/llm/videos` for video directory
-- `~/investigation/reports` for reports
-- Your existing setup continues to work without changes
-
-## Multiple Storage Locations
-
-The flexible configuration allows you to:
+## 📊 Example Workflow
 
 ```bash
-# Work with thumb drive
-export VIDEO_DIR="/mnt/llm/videos"
+# 1. Extract metadata from videos
 ./script1_extract.sh
+# → Generates detailed reports in ~/investigation/reports/
 
-# Switch to USB drive
-export VIDEO_DIR="/media/username/USB/videos"
-./script1_extract.sh
+# 2. Analyze visual content
+./script2_visual.sh
+# → Extracts key frames and analyzes with VL model
 
-# Use network storage
-export VIDEO_DIR="/mnt/nas/videos"
-./script1_extract.sh
+# 3. Use LLM for intelligent analysis
+python llmsh.py "find suspicious videos from March 2024"
+# → Generates and executes analysis commands
 ```
 
-All without modifying the scripts themselves!
+## 🔒 Security & Privacy
 
-## Configuration Reference
+- **No hardcoded paths** - All paths are configurable
+- **Local processing** - All analysis happens on your machine
+- **Private by default** - No data sent to external servers
+- **Configurable** - Adapt to your security requirements
 
-See [CONFIGURATION_GUIDE.md](CONFIGURATION_GUIDE.md) for complete documentation of all configuration options, examples, and best practices.
+## 📚 Documentation
+
+- **[Configuration Guide](CONFIGURATION_GUIDE.md)** - Complete setup instructions
+- **[GitHub Setup](GITHUB_SETUP.md)** - Repository setup guide
+- **[Project Summary](PROJECT_SUMMARY.md)** - Technical overview
+
+## 🎨 Customization
+
+### **Ollama Models**
+```bash
+# Use different models
+export OLLAMA_MODEL="llama3:70b"
+export OLLAMA_VL_MODEL="bakllava:latest"
+```
+
+### **Analysis Parameters**
+```bash
+# Adjust sensitivity
+export SCENE_THRESHOLD="0.4"    # More sensitive scene detection
+export PAUSE_THRESHOLD="0.03"   # More sensitive pause detection
+```
+
+## 🌟 Why _003?
+
+The `_003` prefix indicates:
+- **Project 003** - Third in a series of investigation tools
+- **Flexible** - Adapts to different storage setups (003 = multiple options)
+- **Professional** - Designed for serious investigation work
+
+## 📈 Roadmap
+
+Future enhancements:
+- ✅ Flexible configuration system (DONE)
+- 🔜 Command-line argument parsing
+- 🔜 Docker container support
+- 🔜 Web interface
+- 🔜 Automated report generation
+
+## 🤝 Contributing
+
+Contributions welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
+
+## 📝 License
+
+MIT License - Free to use, modify, and distribute
+
+## 📬 Contact
+
+For questions or support:
+- Open an issue on GitHub
+- Check the documentation
+- Explore the configuration options
 
 ---
 
+**Built for investigators, by investigators** 🔍
 
-
-## Usage
-
-### Basic Workflow
-
-1. **Run metadata extraction**:
-```bash
-./script1_extract.sh
-```
-
-2. **Run visual analysis**:
-```bash
-./script2_visual.sh
-```
-
-3. **Use LLM orchestrator**:
-```bash
-python llmsh.py "analyze recent videos" [--dry-run]
-```
-
-### llmsh.py Usage
-
-```bash
-# Basic usage
-python llmsh.py "analyze videos from January 2024"
-
-# Force re-analysis
-python llmsh.py "re-analyze all videos force"
-
-# Dry run (show commands without executing)
-python llmsh.py "analyze recent batch" --dry-run
-
-# Specific video selection
-python llmsh.py "analyze videos with keyword tutorial"
-```
-
-## Output Structure
-
-```
-investigation/
-├── reports/              # Analysis reports
-│   ├── *video_name*_report.txt      # Metadata reports
-│   ├── *video_name*_visual.txt     # Visual analysis reports
-│   ├── cyberchef_summary.json      # CyberChef analysis
-│   ├── metadata_summary.json       # Metadata summary
-│   └── llmsh_log.txt               # Execution logs
-├── frames/               # Extracted frames
-│   └── *video_name*/     # Per-video frame organization
-│       ├── scene/        # Scene change frames
-│       └── pause/        # Motion pause frames
-└── scripts/               # The scripts themselves
-```
-
-## Examples
-
-### Example 1: Analyze recent videos
-```bash
-python llmsh.py "analyze most recent batch"
-```
-
-### Example 2: Analyze specific month
-```bash
-python llmsh.py "analyze videos from March 2024"
-```
-
-### Example 3: Force re-analysis
-```bash
-python llmsh.py "re-analyze videos with tutorial keyword force"
-```
-
-## Advanced Features
-
-### Date-based Organization
-Videos are automatically organized into YYYYMM folders based on their upload date extracted from filenames.
-
-### Fuzzy Search
-The system uses fuzzy matching to find videos based on keywords in filenames.
-
-### Memory Management
-The visual analysis script includes memory management to unload VL models between videos, preventing memory exhaustion.
-
-### Dry Run Mode
-Use `--dry-run` flag to see what commands would be executed without actually running them.
-
-## Troubleshooting
-
-### Ollama not responding
-- Ensure Ollama service is running: `sudo systemctl start ollama.service`
-- Check that the required models are pulled
-- Verify the API endpoint matches your configuration
-
-### Missing dependencies
-- Run the dependency check: `./script1_extract.sh` (it will show missing dependencies)
-- Install missing packages with: `sudo apt install package-name`
-
-### Frame extraction issues
-- Ensure FFmpeg is properly installed
-- Check video file permissions
-- Verify disk space for frame storage
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Commit your changes: `git commit -am 'Add new feature'`
-4. Push to the branch: `git push origin feature-name`
-5. Submit a pull request
-
-## License
-
-[MIT License](LICENSE)
-
-## Support
-
-For issues or questions, please open an issue on the GitHub repository.
+![Video Investigation](https://socialify.git.ci/infinite-void/_003-video-investigation/image?description=1&font=Inter&language=1&name=1&owner=1&pattern=Plus&stargazers=1&theme=Dark)
