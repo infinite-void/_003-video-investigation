@@ -13,12 +13,23 @@ import re
 from datetime import datetime
 from difflib import get_close_matches
 
-# ===================== CONFIG =====================
-OLLAMA_API = "http://127.0.0.1:11434/v1/complete"
-MODEL = "qwen3-coder:8b"
-VIDEOS_DIR = Path("/mnt/llm/videos")
-REPORTS_DIR = Path.home() / "investigation/reports"
-CYBERCHEF_CLI = "/usr/local/bin/cyberchef-cli"
+# ===================== CONFIG LOADING =====================
+try:
+    from config_loader import ConfigLoader
+    config = ConfigLoader()
+    OLLAMA_API = f"{config.get('ollama', 'api_endpoint')}/v1/complete"
+    MODEL = config.get('ollama', 'model')
+    VIDEOS_DIR = Path(config.get_path('paths', 'video_dir'))
+    REPORTS_DIR = Path(config.get_path('paths', 'report_dir')).expanduser()
+    CYBERCHEF_CLI = config.get('cyberchef', 'cli_path')
+except ImportError:
+    # Fallback to defaults if config_loader not available
+    OLLAMA_API = "http://127.0.0.1:11434/v1/complete"
+    MODEL = "qwen3-coder:8b"
+    VIDEOS_DIR = Path("/mnt/llm/videos")
+    REPORTS_DIR = Path.home() / "investigation/reports"
+    CYBERCHEF_CLI = "/usr/local/bin/cyberchef-cli"
+
 LOG_FILE = REPORTS_DIR / "llmsh_log.txt"
 PROCESSED_LOG = REPORTS_DIR / "processed_videos.json"
 

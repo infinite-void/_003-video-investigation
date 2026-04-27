@@ -54,33 +54,76 @@ ollama pull qwen3-coder:8b
 ollama pull huihui_ai/qwen3-vl-abliterated:latest
 ```
 
-## Configuration
+## Configuration File
 
-Edit the configuration section in each script to match your environment:
+A configuration file example is provided:
 
-### llmsh.py
-```python
-OLLAMA_API = "http://127.0.0.1:11434/v1/complete"
-MODEL = "qwen3-coder:8b"
-VIDEOS_DIR = Path("/mnt/llm/videos")
-REPORTS_DIR = Path.home() / "investigation/reports"
-CYBERCHEF_CLI = "/usr/local/bin/cyberchef-cli"
-```
-
-### script1_extract.sh
 ```bash
-VIDEO_DIR="/mnt/llm/videos"
-REPORT_DIR="$HOME/investigation/reports"
+# Example configuration file
+cp config.ini.example config.ini
+
+# Or install system-wide
+mkdir -p ~/.config/video-investigation/
+cp config.ini.example ~/.config/video-investigation/config.ini
 ```
 
-### script2_visual.sh
-```bash
-VIDEO_DIR="/mnt/llm/videos"
-REPORT_DIR="$HOME/investigation/reports"
-FRAME_DIR="$HOME/investigation/frames"
-VL_MODEL="huihui_ai/qwen3-vl-abliterated:latest"
-OLLAMA_API="http://127.0.0.1:11434"
+Edit the configuration file to match your setup:
+
+```ini
+[paths]
+video_dir = /mnt/llm/videos      # Your thumb drive
+report_dir = ~/investigation/reports
+frame_dir = ~/investigation/frames
+
+[ollama]
+api_endpoint = http://127.0.0.1:11434
+model = qwen3-coder:8b
+vl_model = huihui_ai/qwen3-vl-abliterated:latest
 ```
+
+## Configuration Precedence
+
+1. **Environment Variables** (highest priority)
+2. **Configuration File** values
+3. **Default Values** (lowest priority)
+
+This means you can override any setting temporarily with environment variables.
+
+## Backward Compatibility
+
+The scripts maintain full backward compatibility. If you don't set any configuration:
+- They use the same defaults as before
+- `/mnt/llm/videos` for video directory
+- `~/investigation/reports` for reports
+- Your existing setup continues to work without changes
+
+## Multiple Storage Locations
+
+The flexible configuration allows you to:
+
+```bash
+# Work with thumb drive
+export VIDEO_DIR="/mnt/llm/videos"
+./script1_extract.sh
+
+# Switch to USB drive
+export VIDEO_DIR="/media/username/USB/videos"
+./script1_extract.sh
+
+# Use network storage
+export VIDEO_DIR="/mnt/nas/videos"
+./script1_extract.sh
+```
+
+All without modifying the scripts themselves!
+
+## Configuration Reference
+
+See [CONFIGURATION_GUIDE.md](CONFIGURATION_GUIDE.md) for complete documentation of all configuration options, examples, and best practices.
+
+---
+
+
 
 ## Usage
 

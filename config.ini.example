@@ -1,0 +1,47 @@
+# Configuration file for video investigation scripts
+# Place this file at ~/.config/video-investigation/config.ini
+# or in the same directory as the scripts
+
+[paths]
+# Directory containing video files to analyze
+# Default: /mnt/llm/videos (for thumb drives)
+# video_dir = /mnt/llm/videos
+
+# Directory for generated reports
+# Default: ~/investigation/reports
+# report_dir = ~/investigation/reports
+
+# Directory for extracted frames (visual analysis)
+# Default: ~/investigation/frames
+# frame_dir = ~/investigation/frames
+
+[ollama]
+# Ollama API endpoint
+# Default: http://127.0.0.1:11434
+# api_endpoint = http://127.0.0.1:11434
+
+# Default model for command generation
+# Default: qwen3-coder:8b
+# model = qwen3-coder:8b
+
+# VL model for visual analysis
+# Default: huihui_ai/qwen3-vl-abliterated:latest
+# vl_model = huihui_ai/qwen3-vl-abliterated:latest
+
+[cyberchef]
+# Path to CyberChef CLI (optional)
+# Default: /usr/local/bin/cyberchef-cli
+# cli_path = /usr/local/bin/cyberchef-cli
+
+[behavior]
+# Scene change threshold for frame extraction (0.0-1.0)
+# Default: 0.3
+# scene_threshold = 0.3
+
+# Motion pause threshold for frame extraction (0.0-1.0)
+# Default: 0.05
+# pause_threshold = 0.05
+
+# Maximum pause frames per video
+# Default: 15
+# max_pause_frames = 15

@@ -10,15 +10,26 @@
 # Optimized: JPG extraction, tmpfile base64, Ollama preflight check
 # ============================================================
 
-VIDEO_DIR="/mnt/llm/videos"
-REPORT_DIR="$HOME/investigation/reports"
-FRAME_DIR="$HOME/investigation/frames"
-VL_MODEL="huihui_ai/qwen3-vl-abliterated:latest"
-OLLAMA_API="http://127.0.0.1:11434"
+# ============================================================
+# SCRIPT 2 — VISUAL FRAME ANALYSIS (v2.1)
+# Extracts frames and runs VL model to find:
+# - Code snippets
+# - Mouse pause moments
+# - Hidden handles, URLs, usernames
+# Run AFTER script1_extract.sh
+# Optimized: JPG extraction, tmpfile base64, Ollama preflight check
+# ============================================================
 
-SCENE_THRESHOLD="0.3" # Scene changes — new content appearing
-PAUSE_THRESHOLD="0.05" # Low motion — mouse paused on something
-MAX_PAUSE_FRAMES=15 # Cap pause frames per video
+# Load configuration from environment variables or use defaults
+VIDEO_DIR="${VIDEO_DIR:-/mnt/llm/videos}"
+REPORT_DIR="${REPORT_DIR:-$HOME/investigation/reports}"
+FRAME_DIR="${FRAME_DIR:-$HOME/investigation/frames}"
+VL_MODEL="${VL_MODEL:-huihui_ai/qwen3-vl-abliterated:latest}"
+OLLAMA_API="${OLLAMA_API:-http://127.0.0.1:11434}"
+
+SCENE_THRESHOLD="${SCENE_THRESHOLD:-0.3}" # Scene changes — new content appearing
+PAUSE_THRESHOLD="${PAUSE_THRESHOLD:-0.05}" # Low motion — mouse paused on something
+MAX_PAUSE_FRAMES="${MAX_PAUSE_FRAMES:-15}" # Cap pause frames per video
 
 mkdir -p "$REPORT_DIR"
 mkdir -p "$FRAME_DIR"

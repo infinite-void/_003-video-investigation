@@ -6,8 +6,15 @@
 # Output: ~/investigation/reports/
 # ============================================================
 
-VIDEO_DIR="/mnt/llm/videos"
-REPORT_DIR="$HOME/investigation/reports"
+# ============================================================
+# SCRIPT 1 — METADATA & URL EXTRACTION
+# Run this first on your downloaded videos
+# Output: ~/investigation/reports/
+# ============================================================
+
+# Load configuration from environment variables or use defaults
+VIDEO_DIR="${VIDEO_DIR:-/mnt/llm/videos}"
+REPORT_DIR="${REPORT_DIR:-$HOME/investigation/reports}"
 mkdir -p "$REPORT_DIR"
 
 # Check dependencies
