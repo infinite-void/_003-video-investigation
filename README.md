@@ -2,8 +2,6 @@
 
 **Advanced video forensics tools for Parrot OS** 🔍
 
-![Video Investigation](https://img.shields.io/badge/Status-Production-ready-success)
-![License](https://img.shields.io/badge/License-MIT-blue)
 ![Python](https://img.shields.io/badge/Python-3.x-blue)
 ![Ollama](https://img.shields.io/badge/Ollama-Powered-important)
 
